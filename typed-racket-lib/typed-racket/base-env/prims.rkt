@@ -609,16 +609,13 @@ the typed racket language.
           a2:optional-standalone-annotation*
           body ...) ; body is not always an expression, can be a break-clause
        (define a.ty (or (attribute a2.ty) (attribute a1.ty)))
-       (if a.ty
-           (quasisyntax/loc stx
-             (for/fold: : #,a.ty
-               ((return-hash : #,a.ty (ann (#,hash-maker null) #,a.ty)))
-               (clause.expand ... ...)
-               (let-values (((key val) (let () body ...)))
-                 (hash-set return-hash key val))))
-           (syntax/loc stx
-             (for/hash (clause.expand ... ...)
-               body ...)))])))
+       (unless a.ty (set! a.ty #'(Immutable-HashTable Any Any)))
+       (quasisyntax/loc stx
+         (for/fold: : #,a.ty
+             ((return-hash : #,a.ty (ann (#,hash-maker null) #,a.ty)))
+             (clause.expand ... ...)
+           (let-values (((key val) (let () body ...)))
+             (hash-set return-hash key val))))])))
 
 (define-syntax for/hash:    (define-for/hash:-variant #'make-immutable-hash))
 (define-syntax for/hasheq:  (define-for/hash:-variant #'make-immutable-hasheq))
