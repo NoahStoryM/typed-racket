@@ -608,8 +608,7 @@ the typed racket language.
           clause:for-clauses
           a2:optional-standalone-annotation*
           body ...) ; body is not always an expression, can be a break-clause
-       (define a.ty (or (attribute a2.ty) (attribute a1.ty)))
-       (unless a.ty (set! a.ty #'(Immutable-HashTable Any Any)))
+       (define a.ty (or (attribute a2.ty) (attribute a1.ty) #'(Immutable-HashTable Any Any)))
        (quasisyntax/loc stx
          (for/fold: : #,a.ty
              ((return-hash : #,a.ty (ann (#,hash-maker null) #,a.ty)))
