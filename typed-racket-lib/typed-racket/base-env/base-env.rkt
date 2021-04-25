@@ -966,8 +966,8 @@
 
 [hash-set (-poly (a b) ((-Immutable-HT a b) a b . -> . (-Immutable-HT a b)))]
 [hash-set* (-poly (a b) (->* (list (-Immutable-HT a b)) (make-Rest (list a b)) (-Immutable-HT a b)))]
-[hash-set! (-poly (a b) ((-Mutable-HT a b) a b . -> . -Void))]
-[hash-set*! (-poly (a b) (->* (list (-Mutable-HT a b)) (make-Rest (list a b)) -Void))]
+[hash-set! (-poly (a b) ((Un (-Mutable-HT a b) (-Weak-HT a b)) a b . -> . -Void))]
+[hash-set*! (-poly (a b) (->* (list (Un (-Mutable-HT a b) (-Weak-HT a b))) (make-Rest (list a b)) -Void))]
 [hash-ref (-poly (a b c)
                  (cl-> [((-HT a b) a) b]
                        [((-HT a b) a (-val #f)) (-opt b)]
@@ -978,14 +978,14 @@
 [hash-ref! (-poly (a b) (-> (-HT a b) a (-> b) b))]
 [hash-has-key? (-HashTableTop Univ . -> . B)]
 [hash-update! (-poly (a b)
-                     (cl-> [((-Mutable-HT a b) a (-> b b)) -Void]
-                           [((-Mutable-HT a b) a (-> b b) (-> b)) -Void]))]
+                     (cl-> [((Un (-Mutable-HT a b) (-Weak-HT a b)) a (-> b b)) -Void]
+                           [((Un (-Mutable-HT a b) (-Weak-HT a b)) a (-> b b) (-> b)) -Void]))]
 [hash-update (-poly (a b)
                     (cl-> [((-Immutable-HT a b) a (-> b b)) (-Immutable-HT a b)]
                           [((-Immutable-HT a b) a (-> b b) (-> b)) (-Immutable-HT a b)]))]
 [hash-remove (-poly (a b) (-> (-Immutable-HT a b) Univ (-Immutable-HT a b)))]
-[hash-remove! (-poly (a b) (cl-> [((-Mutable-HT a b) a) -Void]
-                                 [(-Mutable-HashTableTop a) -Void]))]
+[hash-remove! (-poly (a b) (cl-> [((Un (-Mutable-HT a b) (-Weak-HT a b)) a) -Void]
+                                 [((U -Mutable-HashTableTop -Weak-HashTableTop) a) -Void]))]
 [hash-clear! (-> -Mutable-HashTableTop -Void)]
 [hash-clear (-poly (a b) (-> (-Immutable-HT a b) (-Immutable-HT a b)))]
 [hash-copy-clear (-poly (a b) (cl-> [((-Immutable-HT a b)) (-Immutable-HT a b)]
@@ -1018,7 +1018,7 @@
                               [(-Mutable-HashTableTop) -Mutable-HashTableTop]
                               [((-Weak-HT a b)) (-Weak-HT a b)]
                               [(-Weak-HashTableTop) -Weak-HashTableTop]
-                              [((-HT a b)) (-Mutable-HT a b)]))]
+                              [((-HT a b)) (U (-Mutable-HT a b) (-Weak-HT a b))]))]
 [eq-hash-code (-> Univ -Fixnum)]
 [eqv-hash-code (-> Univ -Fixnum)]
 [equal-hash-code (-> Univ -Fixnum)]
