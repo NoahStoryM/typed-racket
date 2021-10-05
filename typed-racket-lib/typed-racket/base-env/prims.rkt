@@ -614,9 +614,9 @@ the typed racket language.
              (quasisyntax/loc stx
                (#,for/folder: : #,a.ty
                 ((return-hash : #,a.ty (ann (#,hash-maker null) #,a.ty)))
-                (if for*?
-                    (clause.expand* ... ...)
-                    (clause.expand  ... ...))
+                #,(if for*?
+                      #'(clause.expand* ... ...)
+                      #'(clause.expand  ... ...))
                 (let-values (((key val) (let () body ...)))
                   (hash-set return-hash key val))))])))
 
