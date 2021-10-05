@@ -603,7 +603,7 @@ the typed racket language.
 (begin-for-syntax
   (define-values (define-for/hash:-variant define-for*/hash:-variant)
     (let ()
-      (define ((make for/folder:) hash-maker)
+      (define ((make for*? for/folder:) hash-maker)
         (lambda (stx)
           (syntax-parse stx
             [(_ a1:optional-standalone-annotation*
@@ -614,11 +614,13 @@ the typed racket language.
              (quasisyntax/loc stx
                (#,for/folder: : #,a.ty
                 ((return-hash : #,a.ty (ann (#,hash-maker null) #,a.ty)))
-                (clause.expand ... ...)
+                (if for*?
+                    (clause.expand* ... ...)
+                    (clause.expand  ... ...))
                 (let-values (((key val) (let () body ...)))
                   (hash-set return-hash key val))))])))
 
-      (values (make #'for/fold:) (make #'for*/fold:)))))
+      (values (make #f #'for/fold:) (make #t #'for*/fold:)))))
 
 (define-syntax for/hash:    (define-for/hash:-variant #'make-immutable-hash))
 (define-syntax for/hasheq:  (define-for/hash:-variant #'make-immutable-hasheq))
