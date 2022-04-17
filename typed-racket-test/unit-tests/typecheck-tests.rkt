@@ -2555,7 +2555,11 @@
         #:ret (tc-ret -NonPosReal -true-propset)]
 
        [tc-err
-         (hash-ref! (ann (make-hash) (HashTable #f (-> #t))) #f (lambda () #t))]
+         (hash-ref! (ann (make-hash) (HashTable #f (-> #t))) #f (λ () (λ () (λ () #t))))]
+       [tc-e
+         (hash-ref! (ann (make-hash) (HashTable #f (-> #t))) #f (λ () (λ () #t)))]
+       [tc-e
+         (hash-ref! (ann (make-hash) (HashTable #f (-> #t))) #f (λ () #t))]
        [tc-e
          (hash-ref (ann (make-hash) (HashTable #f #t)) #f #f)
          -Boolean]
