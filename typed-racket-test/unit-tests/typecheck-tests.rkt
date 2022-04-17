@@ -2557,9 +2557,11 @@
        [tc-err
          (hash-ref! (ann (make-hash) (HashTable #f (-> #t))) #f (λ () (λ () (λ () #t))))]
        [tc-e
-         (hash-ref! (ann (make-hash) (HashTable #f (-> #t))) #f (λ () (λ () #t)))]
+         (hash-ref! (ann (make-hash) (HashTable #f (-> #t))) #f (λ () (λ () #t)))
+         (-> #t)]
        [tc-e
-         (hash-ref! (ann (make-hash) (HashTable #f (-> #t))) #f (λ () #t))]
+         (hash-ref! (ann (make-hash) (HashTable #f (-> #t))) #f (λ () #t))
+         (-> #t)]
        [tc-e
          (hash-ref (ann (make-hash) (HashTable #f #t)) #f #f)
          -Boolean]
